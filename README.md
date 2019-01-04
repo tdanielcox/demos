@@ -1,6 +1,6 @@
 # tdanielcox Demos
 
-[see demos](https://tdanielcox.com/demos)
+[see demos](http://tdanielcox.com/demos)
 
 ## Project setup
 ```

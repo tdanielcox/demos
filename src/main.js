@@ -16,7 +16,7 @@ Vue.config.productionTip = false;
 
 
 const router = new VueRouter({
-    mode: 'history',
+    mode: 'hash',
     base: __dirname,
     routes: [
         {path: '/', redirect: '/upload'},
