@@ -19,7 +19,7 @@
 
             <ul class="navbar-nav mr-5">
                 <li class="nav-item">
-                    <a href="https://github.com/tdanielcox/brandbox-demos" target="_blank" class="nav-link">
+                    <a href="https://github.com/tdanielcox/demos" target="_blank" class="nav-link">
                         <i class="fab fa-github mr-1"></i> Github
                     </a>
                 </li>
