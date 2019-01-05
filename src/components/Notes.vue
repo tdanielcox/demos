@@ -12,68 +12,68 @@
         </div>
 
         <transition-group tag="div" class="cards mt-5" name="swoopIn">
-            <div class="card" :class="note.theme"
-                 v-for="(note, i) in notes" :key="note.id"
-                 v-bind:style="{
+            <div class="card-container" v-for="(note, i) in notes" :key="note.id">
+                <div class="card" :class="note.theme" v-bind:style="{
                      transform: 'rotate(' + note.rotate + ')',
                      zIndex: 100 - i
                  }">
 
-                <div class="card-body">
-                    <div class="card-icon">
-                        <i></i>
-                    </div>
+                    <div class="card-body">
+                        <div class="card-icon">
+                            <i></i>
+                        </div>
 
-                    <div class="card-title-container">
-                        <h5 class="card-title" @click="editNote(i)" v-if="!note.editing">{{ note.note }}</h5>
+                        <div class="card-title-container">
+                            <h5 class="card-title" @click="editNote(i)" v-if="!note.editing">{{ note.note }}</h5>
 
-                        <input type="text" id="edit-note" class="form-control edit-note"
-                               v-if="note.editing"
-                               autocomplete="off"
-                               v-model="note.note"
-                               @keyup.enter="submitEditNote(i)"
-                               required>
-                    </div>
+                            <input type="text" id="edit-note" class="form-control edit-note"
+                                   v-if="note.editing"
+                                   autocomplete="off"
+                                   v-model="note.note"
+                                   @keyup.enter="submitEditNote(i)"
+                                   required>
+                        </div>
 
-                    <div class="card-actions" v-if="!note.editing">
-                        <a href="javascript:" class="card-action"
-                           @click="editNote(i)"><i class="fas fa-pencil-alt"></i></a>
+                        <div class="card-actions" v-if="!note.editing">
+                            <a href="javascript:" class="card-action"
+                               @click="editNote(i)"><i class="fas fa-pencil-alt"></i></a>
 
-                        <b-dropdown variant="link" class="card-action-dropdown" no-caret>
-                            <template slot="button-content">
-                                <a href="javascript:" class="card-action">
-                                    <i class="fas fa-palette"></i>
-                                </a>
-                            </template>
+                            <b-dropdown variant="link" class="card-action-dropdown" no-caret>
+                                <template slot="button-content">
+                                    <a href="javascript:" class="card-action">
+                                        <i class="fas fa-palette"></i>
+                                    </a>
+                                </template>
 
-                            <b-dropdown-item @click="setTheme(i, 'pastel-blue')" :active="note.theme === 'pastel-blue'">
-                                <i class="card-theme-preview pastel-blue"></i>
-                                Blue
-                            </b-dropdown-item>
+                                <b-dropdown-item @click="setTheme(i, 'pastel-blue')" :active="note.theme === 'pastel-blue'">
+                                    <i class="card-theme-preview pastel-blue"></i>
+                                    Blue
+                                </b-dropdown-item>
 
-                            <b-dropdown-item @click="setTheme(i, 'pastel-green')" :active="note.theme === 'pastel-green'">
-                                <i class="card-theme-preview pastel-green"></i>
-                                Green
-                            </b-dropdown-item>
+                                <b-dropdown-item @click="setTheme(i, 'pastel-green')" :active="note.theme === 'pastel-green'">
+                                    <i class="card-theme-preview pastel-green"></i>
+                                    Green
+                                </b-dropdown-item>
 
-                            <b-dropdown-item @click="setTheme(i, 'pastel-orange')" :active="note.theme === 'pastel-orange'">
-                                <i class="card-theme-preview pastel-orange"></i>
-                                Orange
-                            </b-dropdown-item>
+                                <b-dropdown-item @click="setTheme(i, 'pastel-orange')" :active="note.theme === 'pastel-orange'">
+                                    <i class="card-theme-preview pastel-orange"></i>
+                                    Orange
+                                </b-dropdown-item>
 
-                            <b-dropdown-item @click="setTheme(i, 'pastel-yellow')" :active="note.theme === 'pastel-yellow'">
-                                <i class="card-theme-preview pastel-yellow"></i>
-                                Yellow
-                            </b-dropdown-item>
+                                <b-dropdown-item @click="setTheme(i, 'pastel-yellow')" :active="note.theme === 'pastel-yellow'">
+                                    <i class="card-theme-preview pastel-yellow"></i>
+                                    Yellow
+                                </b-dropdown-item>
 
-                            <b-dropdown-item @click="setTheme(i, 'pastel-red')" :active="note.theme === 'pastel-red'">
-                                <i class="card-theme-preview pastel-red"></i>
-                                Red
-                            </b-dropdown-item>
-                        </b-dropdown>
+                                <b-dropdown-item @click="setTheme(i, 'pastel-red')" :active="note.theme === 'pastel-red'">
+                                    <i class="card-theme-preview pastel-red"></i>
+                                    Red
+                                </b-dropdown-item>
+                            </b-dropdown>
 
-                        <a href="javascript:" class="card-action float-right"
-                           @click="deleteNote(i)"><i class="fas fa-trash"></i></a>
+                            <a href="javascript:" class="card-action float-right"
+                               @click="deleteNote(i)"><i class="fas fa-trash"></i></a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -170,13 +170,18 @@
             flex-wrap: wrap;
         }
 
+        .card-container {
+            width: 240px;
+            margin: 0 15px 30px;
+        }
+
         .card {
             padding-top: 40px;
+            padding-bottom: 30px;
             border: none;
             border-radius: 0;
             min-height: 200px;
-            width: 240px;
-            margin: 0 15px 30px;
+            width: 100%;
 
             .card-icon {
                 position: absolute;
@@ -269,7 +274,7 @@
     }
 
     .swoopIn-enter, .swoopIn-leave-to {
-        transform: scale(1.1);
+        transform: scale(1.2);
         opacity: 0;
     }
 </style>
