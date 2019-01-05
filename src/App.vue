@@ -18,7 +18,6 @@
 <style>
     @import url('https://fonts.googleapis.com/css?family=Exo:300,400,700');
     @import url('~@fortawesome/fontawesome-free/css/all.css');
-    /*@import url('~vue2-animate/dist/vue2-animate.css');*/
 
     html, body {
         height: 100%;

@@ -2,7 +2,7 @@
     <div class="image-uploader">
         <div class="container">
             <div class="row">
-                <div class="col-6">
+                <div class="col-12 col-lg-6">
                     <div class="dropzone-container">
                         <vue-dropzone ref="pageDropzone" id="dropzone"
                                       :options="dropzoneOptions" :useCustomSlot="true"
@@ -16,12 +16,12 @@
                     </div>
                 </div>
 
-                <div class="col-6">
+                <div class="col-12 col-lg-6 mt-5 mt-lg-0">
                     <transition name="swoopIn">
                         <div class="uploaded-file-list" v-if="imageRows.length > 0">
                             <h2>Your Uploaded Files</h2>
 
-                            <ul class="list-unstyled">
+                            <ul class="files-list list-unstyled">
                                 <li v-for="row in imageRows" :key="row.url">
                                     <div class="icon">
                                         <img :src="row.url" />
@@ -80,10 +80,13 @@
 
 <style scoped lang="scss">
     $theme-color: #E7E7E7;
+    $mobile-breakpoint: 992px;
 
     .image-uploader {
         font-family: 'Exo', sans-serif;
         background-image: url('../assets/doodles.png');
+        height: calc(100vh - 90px);
+        overflow-y: auto;
         padding-top: 5vh;
         padding-bottom: 5vh;
 
@@ -94,7 +97,7 @@
         }
 
         > .container {
-            height: calc(90vh - 90px);
+            height: 100%;
 
             > .row {
                 height: 100%;
@@ -103,14 +106,19 @@
     }
 
     .vue-dropzone {
-        height: calc(90vh - 90px);
         position: relative;
         z-index: 2;
         display: flex;
         align-items: center;
         justify-content: center;
+        flex-wrap: wrap;
         text-align: center;
         font-family: 'Exo', sans-serif;
+        width: 100%;
+
+        @media (min-width: #{$mobile-breakpoint}) {
+            height: calc(90vh - 90px);
+        }
     }
 
     .dz-default {

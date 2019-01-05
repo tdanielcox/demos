@@ -1,52 +1,83 @@
 <template>
     <div class="notes">
-        <div class="container-fluid">
-            <div class="write-note">
-                <label for="note" class="sr-only">Type a note</label>
-                <div class="input-group">
-                    <input type="text" id="note" class="form-control note" placeholder="Type a new note..."
-                           autocomplete="off"
-                           v-model="note"
-                           @keyup.enter="submitNote"
-                           required>
-                </div>
-            </div>
-
-            <div class="cards">
-                <transition-group tag="div" class="row justify-content-center mt-5" name="swoopIn">
-                    <div class="col-6 col-sm-4 col-md-3 col-xl-2" v-for="(note, i) in notes" :key="note.id">
-                        <div class="card" :class="note.theme.class"
-                             v-bind:style="{ transform: 'rotate(' + note.rotate + ')' }">
-
-                            <div class="card-body">
-                                <div class="card-icon">
-                                    <i></i>
-                                </div>
-
-                                <div class="card-title-container">
-                                    <h5 class="card-title" @click="editNote(i)" v-if="!note.editing">{{ note.note }}</h5>
-
-                                    <input type="text" id="edit-note" class="form-control edit-note"
-                                           v-if="note.editing"
-                                           autocomplete="off"
-                                           v-model="note.note"
-                                           @keyup.enter="submitEditNote(i)"
-                                           required>
-                                </div>
-
-                                <div class="card-actions" v-if="!note.editing">
-                                    <a href="#" class="card-action"
-                                       @click="deleteNote(i)"><i class="fas fa-check"></i></a>
-
-                                    <a href="#" class="card-action"
-                                       @click="editNote(i)"><i class="fas fa-pencil-alt"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </transition-group>
+        <div class="write-note">
+            <label for="note" class="sr-only">Type a note</label>
+            <div class="input-group">
+                <input type="text" id="note" class="form-control note" placeholder="Type a new note..."
+                       autocomplete="off"
+                       v-model="note"
+                       @keyup.enter="submitNote"
+                       required>
             </div>
         </div>
+
+        <transition-group tag="div" class="cards mt-5" name="swoopIn">
+            <div class="card" :class="note.theme"
+                 v-for="(note, i) in notes" :key="note.id"
+                 v-bind:style="{
+                     transform: 'rotate(' + note.rotate + ')',
+                     zIndex: 100 - i
+                 }">
+
+                <div class="card-body">
+                    <div class="card-icon">
+                        <i></i>
+                    </div>
+
+                    <div class="card-title-container">
+                        <h5 class="card-title" @click="editNote(i)" v-if="!note.editing">{{ note.note }}</h5>
+
+                        <input type="text" id="edit-note" class="form-control edit-note"
+                               v-if="note.editing"
+                               autocomplete="off"
+                               v-model="note.note"
+                               @keyup.enter="submitEditNote(i)"
+                               required>
+                    </div>
+
+                    <div class="card-actions" v-if="!note.editing">
+                        <a href="javascript:" class="card-action"
+                           @click="editNote(i)"><i class="fas fa-pencil-alt"></i></a>
+
+                        <b-dropdown variant="link" class="card-action-dropdown" no-caret>
+                            <template slot="button-content">
+                                <a href="javascript:" class="card-action">
+                                    <i class="fas fa-palette"></i>
+                                </a>
+                            </template>
+
+                            <b-dropdown-item @click="setTheme(i, 'pastel-blue')" :active="note.theme === 'pastel-blue'">
+                                <i class="card-theme-preview pastel-blue"></i>
+                                Blue
+                            </b-dropdown-item>
+
+                            <b-dropdown-item @click="setTheme(i, 'pastel-green')" :active="note.theme === 'pastel-green'">
+                                <i class="card-theme-preview pastel-green"></i>
+                                Green
+                            </b-dropdown-item>
+
+                            <b-dropdown-item @click="setTheme(i, 'pastel-orange')" :active="note.theme === 'pastel-orange'">
+                                <i class="card-theme-preview pastel-orange"></i>
+                                Orange
+                            </b-dropdown-item>
+
+                            <b-dropdown-item @click="setTheme(i, 'pastel-yellow')" :active="note.theme === 'pastel-yellow'">
+                                <i class="card-theme-preview pastel-yellow"></i>
+                                Yellow
+                            </b-dropdown-item>
+
+                            <b-dropdown-item @click="setTheme(i, 'pastel-red')" :active="note.theme === 'pastel-red'">
+                                <i class="card-theme-preview pastel-red"></i>
+                                Red
+                            </b-dropdown-item>
+                        </b-dropdown>
+
+                        <a href="javascript:" class="card-action float-right"
+                           @click="deleteNote(i)"><i class="fas fa-trash"></i></a>
+                    </div>
+                </div>
+            </div>
+        </transition-group>
     </div>
 </template>
 
@@ -64,11 +95,11 @@
                 notes: [],
                 note: '',
                 themes: [
-                    { class: 'pastel-blue' },
-                    { class: 'pastel-green' },
-                    { class: 'pastel-orange' },
-                    { class: 'pastel-yellow' },
-                    { class: 'pastel-red' },
+                    'pastel-blue',
+                    'pastel-green',
+                    'pastel-orange',
+                    'pastel-yellow',
+                    'pastel-red',
                 ]
             }
         },
@@ -93,6 +124,9 @@
             editNote(i) {
                 this.notes[i].editing = true;
             },
+            setTheme(i, theme) {
+                this.notes[i].theme = theme;
+            },
             submitEditNote(i) {
                 this.notes[i].editing = false;
             }
@@ -106,14 +140,12 @@
     .notes {
         background-image: url('../assets/cork-wallet.png');
         padding: 5vh;
+        height: calc(100vh - 90px);
+        overflow-y: auto;
 
         h2 {
             margin: 0 0 20px;
             font-size: 20px;
-        }
-
-        > .container-fluid {
-            height: calc(90vh - 90px);
         }
 
         #note {
@@ -133,14 +165,18 @@
         }
 
         .cards {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
         }
 
         .card {
-            margin-bottom: 30px;
             padding-top: 40px;
             border: none;
             border-radius: 0;
             min-height: 200px;
+            width: 240px;
+            margin: 0 15px 30px;
 
             .card-icon {
                 position: absolute;
@@ -167,7 +203,24 @@
             .card-actions {
                 position: absolute;
                 bottom: 5px;
-                right: 10px;
+                left: 0;
+                width: 100%;
+                padding: 0 10px;
+
+                .card-action-dropdown {
+                    display: inline-block;
+
+                    button.btn {
+                        padding: 0;
+                    }
+
+                    .dropdown-item {
+                        display: flex;
+                        align-items: center;
+                        line-height: 20px;
+                        padding: 5px 15px;
+                    }
+                }
 
                 .card-action {
                     font-size: 20px;
@@ -175,24 +228,39 @@
                     display: inline-block;
                     margin: 0 5px;
                     text-decoration: none;
+                    opacity: 0.4;
+                    transform: scale(0.8);
+                    transition: all 0.2s;
+
+                    &:hover {
+                        opacity: 1;
+                        transform: scale(1);
+                    }
                 }
             }
 
-            &.pastel-red {
-                background: #FFB3BA;
+            .card-theme-preview {
+                display: inline-block;
+                margin-right: 8px;
+                width: 20px;
+                height: 20px;
             }
-            &.pastel-orange {
-                background: #FFDFBA;
-            }
-            &.pastel-yellow {
-                background: #FFFFBA;
-            }
-            &.pastel-green {
-                background: #BAFFC9;
-            }
-            &.pastel-blue {
-                background: #BAE1FF;
-            }
+        }
+
+        .pastel-red {
+            background: #FFB3BA;
+        }
+        .pastel-orange {
+            background: #FFDFBA;
+        }
+        .pastel-yellow {
+            background: #FFFFBA;
+        }
+        .pastel-green {
+            background: #BAFFC9;
+        }
+        .pastel-blue {
+            background: #BAE1FF;
         }
     }
 
