@@ -29,7 +29,9 @@
 
                                     <div class="info">
                                         <p class="name">{{ row.name }}</p>
-                                        <p class="url">{{ row.url }}</p>
+                                        <p class="url">
+                                            <a :href="row.url" target="_blank">{{ row.url }}</a>
+                                        </p>
                                     </div>
                                 </li>
                             </ul>
@@ -55,7 +57,8 @@
                     url: process.env.VUE_APP_API_URL + '/media/upload',
                     thumbnailWidth: 150,
                     maxFilesize: 0.5,
-                    useCustomSlot: true
+                    useCustomSlot: true,
+                    acceptedFiles: "image/*"
                 },
                 imageRows: []
             }
@@ -78,7 +81,7 @@
     }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
     $theme-color: #E7E7E7;
     $mobile-breakpoint: 992px;
 
@@ -123,6 +126,11 @@
 
     .dz-default {
         display: none;
+    }
+
+    .dz-preview {
+        border: 1px solid #AAA;
+        box-shadow: 2px 2px 10px rgba(0,0,0,0.6);
     }
 
     .dropzone-custom-content {

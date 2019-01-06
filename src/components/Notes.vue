@@ -105,6 +105,10 @@
         },
         methods: {
             submitNote() {
+                if (this.note === '') {
+                    return;
+                }
+
                 this.notes.unshift({
                     id: Math.floor(Math.random() * 1000000000),
                     note: this.note,
